@@ -22,7 +22,7 @@ public class UserContoller implements Serializable {
 	@Autowired
 	UserService userService;
 	
-	@GetMapping(path = "users")
+	@GetMapping(path = "/users")
 	public String getAllUsers() {
 		return "<h1>hello World</h1>";
 	}

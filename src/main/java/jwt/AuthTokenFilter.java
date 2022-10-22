@@ -13,11 +13,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import security.securityServices.userDetailsServiceImpl;
-
+@Component
 public class AuthTokenFilter extends OncePerRequestFilter {
 	private static final Logger logger = Logger.getLogger(AuthTokenFilter.class.getName());
 	@Autowired
@@ -30,7 +31,13 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		try {
+			System.out.println("here in test");
 			String jwt = parseJwt(request);
+			  String path = request.getRequestURI();
+			  if ("/users".equals(path)) {
+			    	filterChain.doFilter(request, response);
+			    	return;
+			    }
 			if(java.util.Objects.nonNull(jwt)&&jwtUtils.validateToken(jwt)) {
 				String userName = jwtUtils.getUserNameFromToken(jwt);
 				UserDetails userDetails = detailsServiceImpl.loadUserByUsername(userName);
