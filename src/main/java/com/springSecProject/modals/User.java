@@ -1,6 +1,7 @@
 package com.springSecProject.modals;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -38,8 +39,21 @@ public class User {
 	private String email;
 	
 	@OneToMany(cascade = CascadeType.ALL ,fetch = FetchType.LAZY,mappedBy = "user")
-	private List<Role> role;
+	private Set<Role> role;
 	
+	public User(String userName, String email,
+			String password) {
+		super();
+		this.userName = userName;
+		this.email = email;
+		this.password = password;
+	}
+	
+	public User() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	@Column
 	private String password;
 
@@ -75,11 +89,11 @@ public class User {
 		this.userName = userName;
 	}
 
-	public List<Role> getRole() {
+	public Set<Role> getRole() {
 		return role;
 	}
 
-	public void setRole(List<Role> role) {
+	public void setRole(Set<Role> role) {
 		this.role = role;
 	}
 

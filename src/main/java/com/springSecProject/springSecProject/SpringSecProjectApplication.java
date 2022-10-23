@@ -6,9 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-@EntityScan("com.springSecProject.modals")
-//@ComponentScan (basePackages = {"controllers","jwt","services","security"})
-@ComponentScan (basePackages = {"controllers","services","security","jwt"})
+@EntityScan("com.springSecProject.modals") 
+@ComponentScan (basePackages = {"controllers","services","security","jwt","requestPayload","responsePayload"})
 @EnableJpaRepositories(basePackages = {"reporsitories"})
 @EnableAutoConfiguration
 @SpringBootApplication

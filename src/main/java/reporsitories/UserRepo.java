@@ -11,5 +11,7 @@ import com.springSecProject.modals.User;
 public interface UserRepo extends JpaRepository<User, Long> {
 	Optional<User> findByRole(ERole erole);
 	Optional<User> findByUserName(String name);
+	boolean existsByUserName(String username);
+	boolean existsByEmail(String email);
 	
 }

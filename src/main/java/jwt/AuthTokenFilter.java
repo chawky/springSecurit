@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -25,16 +27,16 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 	private JwtUtils jwtUtils;
 	@Autowired
 	private userDetailsServiceImpl detailsServiceImpl;
-	
+	@Autowired
+	AuthenticationManager authenticationManager;
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		try {
-			System.out.println("here in test");
 			String jwt = parseJwt(request);
 			  String path = request.getRequestURI();
-			  if ("/users".equals(path)) {
+			  if ("/users".equals(path) || "/signup".equals(path) || "/signin".equals(path) ) {
 			    	filterChain.doFilter(request, response);
 			    	return;
 			    }

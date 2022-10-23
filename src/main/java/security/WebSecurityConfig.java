@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import jwt.AuthEntryPointJwt;
@@ -31,12 +32,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	// permet de verifier si les token qu'on reçoit dans les requette sont valide ou non 
 	//token valid ou non 
 	AuthEntryPointJwt unauthorizedHandler;
-	
-
+	@Bean
+	@Override
+	 public AuthenticationManager authenticationManagerBean() throws Exception {
+	      return super.authenticationManagerBean();
+	}  
 	//cree un objet
 	//AuthTokenFilter extracts token from HTTP request
+	@Bean
 	public AuthTokenFilter authentificationJwtTokenFilter() {
 		return new AuthTokenFilter();
+		
+	}
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
 		
 	}
 	@Override
@@ -47,9 +57,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	protected void configure(HttpSecurity http) throws Exception {
 		http.cors().and().csrf().disable()
 		.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and().
-		sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests().antMatchers("/users"). permitAll().anyRequest()
-	      .authenticated().and().addFilterBefore(authentificationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-
+		sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests().antMatchers("/users"). permitAll().antMatchers("/signin"). permitAll().antMatchers("/signup"). permitAll().anyRequest()
+	      .authenticated() .and().formLogin().and().addFilterBefore(authentificationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+		http.cors();
 		
 	}
 }

@@ -4,7 +4,9 @@ import java.util.Date;
 import java.util.logging.Logger;
 
 import org.hibernate.annotations.common.util.impl.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.ExpiredJwtException;
@@ -20,12 +22,15 @@ public class JwtUtils {
 
 	private static final Logger logger = Logger.getLogger(JwtUtils.class.getName());
 	
-	public String generateJwtToken(Authentication authentication) {
-		UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal() ;
+	@Autowired
+	PasswordEncoder encoder;
+	
+	public String generateJwtToken(String username) {
+
 		return Jwts.builder()
-				.setSubject(userPrincipal.getUsername())
-				.setIssuedAt(new Date())
 				.signWith(SignatureAlgorithm.HS512, "secret")
+				.setSubject(username)
+				.setIssuedAt(new Date())
 				.compact();
 
 		

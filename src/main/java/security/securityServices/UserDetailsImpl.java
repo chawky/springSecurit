@@ -45,6 +45,10 @@ public class UserDetailsImpl implements  UserDetails{
 		this.authorities = authorities;
 	}
 
+	public UserDetailsImpl() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public static UserDetailsImpl build(User user) {
 		List<GrantedAuthority> authorities = user.getRole().stream().map(role -> new SimpleGrantedAuthority(role.getRoleName().name())).collect(Collectors.toList());
 		return new UserDetailsImpl(user.getUserId(),user.getUserName(),user.getEmail(),user.getPassword(),authorities);
@@ -91,7 +95,7 @@ public class UserDetailsImpl implements  UserDetails{
 	@Override
 	public String getUsername() {
 		// TODO Auto-generated method stub
-		return this.getUsername();
+		return this.username;
 	}
 
 	@Override
