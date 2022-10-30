@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +33,7 @@ public class UserContoller implements Serializable {
 	}
 	@GetMapping(path = "/usersSecured")
 	@CrossOrigin(origins = "http://localhost:8080")
+	@PreAuthorize("hasRole('ADMIN')")
 	public String getAllUsersSecured(@RequestHeader("Authorization") String authorization) {
 		System.out.println(authorization);
 		return "<h1>hello World2</h1>";
